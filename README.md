@@ -15,11 +15,9 @@ binding for all copy.
 
 ## Deploy (Netlify)
 
-1. Netlify dashboard: Add new site, then Import an existing project.
-2. Pick GitHub and select `New-Product-Protege-Site`.
-3. Build command: leave empty. Publish directory: `.` (netlify.toml already
-   says so, Netlify will read it).
-4. Under Site configuration, Change site name to pick your subdomain.
+Live site: **https://productprotege.netlify.app/**
 
-Every push to `main` redeploys. Pull requests get deploy previews, and the
-Lighthouse workflow runs an accessibility gate (0.90 minimum) on each PR.
+Netlify is linked to this repository. Every push to `main` redeploys the live
+site, and pull requests get deploy previews. The build is defined in
+`netlify.toml`: it stages `index.html` and `assets/` into `_site` and publishes
+that, so internal docs (`CLAUDE.md`, `docs/`, `CHANGELOG.md`) are never served.

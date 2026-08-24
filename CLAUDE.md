@@ -24,9 +24,11 @@ No framework, no build step.
 **People and roles:**
 - **Josh** — consultant driving this work. Primary person you will be taking direction from.
 - **Jason Abdo** — founder and head coach. The brand's center of gravity.
-- **A separate collaborator** handles deployment to **GCP**. **Never modify deploy
-  configuration** (`Dockerfile`, `cloudbuild.yaml`, `app.yaml`, `.github/workflows/`, etc.)
-  unless explicitly asked. Work on a branch, open a PR; `main` is what deploys.
+- **Deployment**: Netlify, linked to this repository. Every push to `main` auto-deploys
+  to **https://productprotege.netlify.app/**. The build (`netlify.toml`) publishes only
+  `index.html` and `assets/` into `_site`, so this file, `docs/`, and the changelog never
+  reach the live site. Do not change `netlify.toml` or `.github/workflows/` casually.
+  Work on a branch, open a PR; `main` is what deploys.
 
 **How Josh wants to be worked with** (stated directly, honor it):
 - Ask clarifying questions before long, detailed work.
@@ -367,7 +369,7 @@ Every one of these exists because the bug already happened. Do not regress them.
 - Re-scan new copy against `docs/CONTENT_RULES.md`: no em-dash, no "assessment," no "free,"
   no bare "PM," no "not X, it's Y"
 - Verify the Snapshot vs Diagnostic distinction is still explicit wherever both appear
-- Work on a branch and open a PR. `main` deploys to GCP.
+- Work on a branch and open a PR. `main` auto-deploys to productprotege.netlify.app via Netlify.
 
 ---
 
