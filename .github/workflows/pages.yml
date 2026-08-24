@@ -27,10 +27,17 @@ jobs:
         uses: actions/configure-pages@v5
         with:
           enablement: true
+      - name: Stage public site files only
+        run: |
+          mkdir -p _site
+          rsync -a --exclude '_site' --exclude '.git' --exclude '.github' \
+            --exclude 'docs' --exclude 'CLAUDE.md' --exclude 'CHANGELOG.md' \
+            --exclude 'README.md' --exclude 'lighthouserc.js' --exclude 'netlify.toml' \
+            ./ _site/
       - name: Upload site
         uses: actions/upload-pages-artifact@v3
         with:
-          path: .
+          path: _site
       - name: Deploy
         id: deployment
         uses: actions/deploy-pages@v4
