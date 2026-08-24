@@ -1,62 +1,25 @@
-# Product Protégé — Marketing Site
+# Product Protege Site (editorial redesign)
 
-A dependency-free static marketing site for Product Protégé. No build step, no framework. `index.html` plus plain CSS/JS assets, hostable anywhere that serves static files.
+The Product Protege marketing site in its 2026 editorial design: white paper
+ground, forest display type, definition-list rows, spec cards, a micro-bar,
+and a pre-footer conversion block on every main page. Eleven in-page views,
+including the dedicated Product Thinking Diagnostic page and the North
+platform page with real product screens.
 
-## Quick start
+Static and dependency free: one `index.html`, one stylesheet, one behavior
+file, plus photo modules and media. No framework, no build step.
 
-Open `index.html` in a browser, or serve the folder:
+Read `CLAUDE.md` before changing anything. It carries the brand law, the
+methodology, and the technical constraints, and `docs/CONTENT_RULES.md` is
+binding for all copy.
 
-```bash
-python3 -m http.server 8000
-# then visit http://localhost:8000
-```
+## Deploy (Netlify)
 
-## Deploying
+1. Netlify dashboard: Add new site, then Import an existing project.
+2. Pick GitHub and select `New-Product-Protege-Site`.
+3. Build command: leave empty. Publish directory: `.` (netlify.toml already
+   says so, Netlify will read it).
+4. Under Site configuration, Change site name to pick your subdomain.
 
-This is a static site. Any of these work with zero build step:
-
-- **Netlify:** drag the folder onto https://app.netlify.com/drop, or connect this repo and set the publish directory to the repo root.
-- **Vercel:** import the repo, framework preset "Other", output directory = root.
-- **GitHub Pages:** enable Pages on the `main` branch, root folder. The site will serve `index.html` automatically.
-- **Cloudflare Pages / S3 / any static host:** upload `index.html` and the `assets/` folder.
-
-No environment variables or server code are required.
-
-## Project structure
-
-```
-index.html               All page markup (nine in-page views)
-assets/css/styles.css    All styles
-assets/js/app.js         All behavior (router, modals, forms, snapshot, builder)
-assets/js/photos-*.js    Coach headshots as embedded data (rarely change)
-assets/logos/            Company logo files (see assets/logos/README.md)
-docs/ARCHITECTURE.md     How the single-page routing, modals, and forms work
-docs/CONTENT_RULES.md    The locked brand language rules for editing copy
-CHANGELOG.md             Running history of changes
-```
-
-## Two things to finish before launch
-
-1. **Lead-capture forms.** The contact and enrollment forms POST to a FormSubmit AJAX
-   endpoint (`PP_FORM_ENDPOINT` near the top of `assets/js/app.js`). The
-   **first submission triggers a one-time activation email** to `hello@productprotege.com`;
-   click the link in it once and submissions will flow. To route leads into a CRM instead,
-   replace `PP_FORM_ENDPOINT` with your Formspree / HubSpot / webhook URL. The payload is a
-   flat JSON object (`name`, `email`, `phone`, `message`, `_subject`).
-
-2. **Company logos.** The "where our coaches have worked" strip currently falls back to a
-   live logo API. For a crisp, self-hosted result, drop official SVGs into
-   `assets/logos/` using the filenames listed in `assets/logos/README.md`. These are
-   third-party trademarks — confirm usage rights with each company before launch.
-
-## Editing copy
-
-Please read `docs/CONTENT_RULES.md` first. The brand has strict, non-obvious language
-rules (for example: never the word "assessment", never "free", spell out "Product Manager",
-no em-dashes). Following them keeps the voice consistent.
-
-## License / ownership
-
-All Product Protégé brand content, the E3 Product Mindset, the Product Empowerment Pyramid,
-and coach likenesses are the property of Product Protégé LLC. Company logos in `assets/logos/`
-are the trademarks of their respective owners.
+Every push to `main` redeploys. Pull requests get deploy previews, and the
+Lighthouse workflow runs an accessibility gate (0.90 minimum) on each PR.

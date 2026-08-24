@@ -1,5 +1,22 @@
-/* hydrate coach photos from assets/js/photos-*.js */
+/* hydrate embedded images from assets/js/photos-*.js and media-*.js */
 (function(){if(!window.PP_PHOTOS)return;document.querySelectorAll('img[data-photo]').forEach(function(im){var k=im.getAttribute('data-photo');if(window.PP_PHOTOS[k])im.src=window.PP_PHOTOS[k];});})();
+
+/* Absolute navigation guard: even if any later script fails, no internal hash link
+   can ever trigger a real navigation (which sandboxed previews surface as an
+   "external link" popup). Runs in the capture phase, attached before anything else. */
+document.addEventListener('click',function(e){
+  var t=e.target;
+  while(t&&t.getAttribute){
+    if(t.tagName==='A'){
+      var href=t.getAttribute('href');
+      if(href&&href.charAt(0)==='#')e.preventDefault();
+      break;
+    }
+    t=t.parentNode;
+  }
+},true);
+
+
 
 /* ===== Lead capture: real form delivery =====
    Uses FormSubmit's AJAX endpoint so submissions arrive at the inbox below with no backend.
@@ -35,7 +52,7 @@ window.__ppSend=function(fields){
   // expose for other scripts if needed
   window.__ppShow=show;
 
-  var viewNames={home:1,snapshot:1,work:1,advisor:1,course:1,book:1,coaching:1,resources:1,coaches:1};
+  var viewNames={home:1,snapshot:1,work:1,advisor:1,course:1,book:1,coaching:1,resources:1,coaches:1,north:1,diagnostic:1};
 
   // View switching for any element with data-view (no History API; sandbox-safe)
   document.addEventListener('click',function(e){
@@ -48,10 +65,11 @@ window.__ppSend=function(fields){
     }
     // In-page anchor links (e.g. #final, #snapshot-teaser, #who, #builder) that are NOT view triggers:
     // reveal the right view if needed, then smooth-scroll to the target accounting for the sticky nav.
-    var anchor=e.target.closest('a[href^="#"]');
+    var anchor=e.target.closest('[data-anchor]');
     if(anchor){
-      var id=anchor.getAttribute('href').slice(1);
-      if(!id||viewNames[id])return;
+      var id=anchor.getAttribute('data-anchor');
+      if(!id){e.preventDefault();return;}
+      if(viewNames[id]){e.preventDefault();show(id);return;}
       var el=document.getElementById(id);
       if(el){
         e.preventDefault();
@@ -74,154 +92,7 @@ window.__ppSend=function(fields){
 
 (function(){
 
-const C = {
-  cpo:{
-    heroSub:'Product Protégé helps you build a strong product mindset across every team, so the work moves from busy output to shipped customer value. Same team behind the book your Product Managers keep on their desk.',
-    heroNote:'<b>No pitch deck.</b> You leave with a clear read on where your product org stands today.',
-    rcTitle:'The cost of building on guesswork',
-    rcSub:'What a year of shipping without a clear why can look like:',
-    rcL1a:'Features shipped last year',rcL1b:'147',
-    rcL2a:'Features that earned real adoption',rcL2b:'about 31',
-    rcL3a:'Roadmap tied to a measured outcome',rcL3b:'12%',
-    rcL4a:'Engineering effort on the rest',rcL4b:'about $2.4M',
-    rcTotA:'Spent building what no one needed',rcTotB:'about $2.1M',
-    rcNote:'A cost most product orgs carry every year and rarely put on paper.',
-    promiseH:'See how our offerings help you <span class="hl">de-risk the work, empower your teams, and deliver more customer value.</span>',
-    promiseSub:'Every engagement draws from the same toolkit. We shape it to your stage, your teams, and your budget. Here is what that does for a product leader.',
-    pl1h:'Stop building the wrong thing',pl1p:'Clear vision and real discovery catch weak ideas at strategy, before they cost a sprint and the team\'s trust.',
-    pl2h:'Teams that own problems',pl2p:'Your Product Managers learn to own the why and the what, so they lead co-creators instead of taking tickets.',
-    pl3h:'A roadmap you can defend',pl3p:'Deliberate bets tied to outcomes, so you can show the board what the work moved, not just what shipped.',
-    diagH:'Which of these signals ring true?',
-    diagLead:'No email needed. A quick, honest read on whether your product org runs on outcomes or just stays busy.',
-    p1:'Your teams ship constantly, but it is hard to tell the board what it moved.',
-    p2:'The roadmap is a list of stakeholder requests, not bets you chose.',
-    p3:'You hired strong people, but product still means project delivery in practice.',
-    p4:'Planning argues about <b>what</b> to build, rarely about <b>which problem</b> you solve.',
-    p5:'Features launch, see little use, and quietly fade. The cost goes uncounted.',
-    p6:'When a strong Product Manager leaves, the way of working leaves too.',
-    costLine:'The expensive part is not building. <span class="hl">It is building the wrong thing.</span>',
-    costLead:'Most teams are working hard. The effort just is not pointed anywhere in particular. Three things drive the waste.',
-    rs1h:'Ambiguity fixed late',rs1p:'A gap caught at strategy costs minutes. Caught in production, it costs a hotfix, a sprint, and trust.',
-    rs2h:'Product Managers below their level',rs2p:'When the people defining the why and the what are not sharp, every team downstream pays for it.',
-    rs3h:'Speed without a why',rs3p:'AI lets teams build faster than ever. That only helps when they are building the right thing.',
-    resH:'After a coaching cycle, Product Managers jump a full tier.',
-    ladderH:'We do not run a workshop and leave. <span class="hl">We help change how the room decides.</span>',
-    ladderLead:'Training no one reinforces fades by the next sprint. So we work in steps, prove value early, then scale what works. You can pause at any stage.',
-    r1h:'Product Mindset Snapshot',r1p:'We map how your org really makes product decisions today, and hand you a clear, scored read with the gaps that matter most.',r1w:'Product leaders',
-    r2h:'Envision: framing and strategy',r2p:'We bring product and engineering together to set a clear vision and the few outcomes that tell you it is working.',r2w:'CPO and CTO',
-    r3h:'Empower: execution',r3p:'Your teams learn the Product Empowerment Pyramid and the E3 Product Mindset in your context, building a shared language.',r3w:'VP Product',
-    r4h:'Elevate: measure and improve',r4p:'We coach inside real roadmap reviews and planning, then build KPI Trees so launch becomes the start of measuring impact.',r4w:'VP Product',
-    r5h:'Sustain: keep it sharp',r5p:'We stay alongside your leaders as an advisor, so the change outlasts any single reorg.',r5w:'CPO',
-    finalH:'See where your product org <span class="hl">stands today.</span>',
-    finalP:'No slide deck, and no discovery call that is really a sales call. Take the Snapshot and we send back an honest read, plus one idea you can use this week.',
-    spotlight:'cpo'
-  },
-  exec:{
-    heroSub:'Product Protégé helps your teams point engineering capacity at the work that moves the business, then prove it with numbers. Same team behind the book your Product Managers keep on their desk.',
-    heroNote:'<b>No pitch deck.</b> You leave with a straight answer on what your product investment returns.',
-    rcTitle:'The cost of building on guesswork',
-    rcSub:'What a year of unmeasured product spend can look like:',
-    rcL1a:'Annual product and engineering spend',rcL1b:'$8.0M',
-    rcL2a:'Work with a defined business case',rcL2b:'about 1 in 5',
-    rcL3a:'Spend tied to a measured outcome',rcL3b:'12%',
-    rcL4a:'Engineering time lost to rework',rcL4b:'about 23%',
-    rcTotA:'At risk of returning little',rcTotB:'about $5.4M',
-    rcNote:'For most companies this is the largest line item with the least visibility into its return.',
-    promiseH:'See how our offerings help you <span class="hl">de-risk the spend, empower your teams, and deliver more value.</span>',
-    promiseSub:'Every engagement draws from the same toolkit. We shape it to your budget and your goals. Here is what that does for a chief executive.',
-    pl1h:'Less money on the wrong bets',pl1p:'Discovery and clear strategy catch weak ideas before you fund them, so capital follows the biggest opportunity.',
-    pl2h:'A team you can trust with the why',pl2p:'Sharp Product Managers defining the problem means every team downstream stops paying for ambiguity.',
-    pl3h:'Returns you can see',pl3p:'Work tied to outcomes, so you can report what the investment moved in the terms the board uses.',
-    diagH:'Which of these signals match your view from the top?',
-    diagLead:'No email needed. A quick, honest read on whether your product investment returns results you can see.',
-    p1:'Product ships steadily, but it is hard to connect the work to revenue or cost.',
-    p2:'The roadmap reflects the loudest voices, not the biggest opportunities.',
-    p3:'You fund a large product and engineering team, yet struggle to see the return.',
-    p4:'Big bets arrive <b>late and over budget</b>, and the post mortem reads the same each time.',
-    p5:'Most features launch, see little use, and fade, with the cost rarely tallied.',
-    p6:'When a key leader leaves, the way decisions get made leaves too.',
-    costLine:'The expensive part is not building. <span class="hl">It is building the wrong thing.</span>',
-    costLead:'Your teams are working hard. The effort just is not pointed at the outcomes the business needs. Three things drive the waste.',
-    rs1h:'Ambiguity fixed late',rs1p:'A gap caught at strategy costs minutes. Caught in production, it costs a hotfix, a sprint, and budget.',
-    rs2h:'Product Managers below their level',rs2p:'When the people defining the why and the what are not sharp, every team downstream pays for it.',
-    rs3h:'Speed without a why',rs3p:'AI lets teams build faster than ever. That only helps when they are building the right thing.',
-    resH:'After a coaching cycle, product investment starts to return.',
-    ladderH:'We do not run a workshop and leave. <span class="hl">We help change how capital gets allocated.</span>',
-    ladderLead:'Training no one reinforces rarely shows up in the numbers. So we start small, prove the return, then scale. Low risk to begin, and you can pause at any stage.',
-    r1h:'Product Mindset Snapshot',r1p:'We map how your org turns investment into product decisions today, and where the return leaks, with the gaps that carry the most dollar impact.',r1w:'CEO and Board',
-    r2h:'Envision: framing and strategy',r2p:'We align you, product, and engineering on the few business outcomes product must move, and how you will know at board level.',r2w:'CEO and CTO',
-    r3h:'Empower: execution',r3p:'Your teams learn a shared way to build the case for what they build, so funding decisions become consistent and defensible.',r3w:'CTO',
-    r4h:'Elevate: measure and improve',r4p:'We build KPI Trees that connect the work to your primary business measures, so you can see the return after launch.',r4w:'CTO',
-    r5h:'Sustain: keep it sharp',r5p:'We stay on as an independent voice, pressure testing the big bets so the discipline outlasts any reorg.',r5w:'CEO and CTO',
-    finalH:'Get a straight answer on <span class="hl">what your product spend returns.</span>',
-    finalP:'No slide deck, and no discovery call that is really a sales call. Take the Snapshot and we send back an honest read of where the return leaks, and where to start.',
-    spotlight:'exec'
-  },
-  hr:{
-    heroSub:'Product Protégé gives People and Talent leaders a shared way to develop Product Managers at scale, with a clear path from analyst to strategic owner. Same team behind the book your Product Managers keep on their desk.',
-    heroNote:'<b>No pitch deck.</b> You leave with an honest read on how your Product Manager bench is developing.',
-    rcTitle:'The cost of figure it out as you go',
-    rcSub:'What developing Product Managers without a shared standard can cost:',
-    rcL1a:'Product Managers on the team',rcL1b:'24',
-    rcL2a:'Months for a new hire to ramp fully',rcL2b:'about 9',
-    rcL3a:'Working from a shared standard',rcL3b:'about 30%',
-    rcL4a:'Regretted departures last year',rcL4b:'5',
-    rcTotA:'Lost to slow ramp and turnover',rcTotB:'about $900K',
-    rcNote:'A cost that rarely lands in one budget line, so it is felt everywhere and owned nowhere.',
-    promiseH:'See how our offerings help your Product Managers <span class="hl">de-risk the work, grow with empowerment, and deliver more value.</span>',
-    promiseSub:'Every engagement draws from the same toolkit. We shape it to your team and your budget. Here is what that does for a People leader.',
-    pl1h:'A craft you can teach',pl1p:'A shared standard for how the role is done well, so growth stops depending on luck or one great manager.',
-    pl2h:'Ramp and retain',pl2p:'New Product Managers reach productive faster, and strong people stay because the path is clear.',
-    pl3h:'Real career rungs',pl3p:'A defined path from analyst to strategic owner, so development is something you can measure and reward.',
-    diagH:'Which of these signals match what you see?',
-    diagLead:'No email needed. A quick, honest read on whether your Product Managers grow on a shared standard or each find their own way.',
-    p1:'Your Product Managers come from tech, UX, and ops, with no shared standard for the role.',
-    p2:'New hires take months to ramp because the right way lives in heads, not a method.',
-    p3:'Strong people plateau because the path from <b>analyst</b> to <b>strategic owner</b> is unclear.',
-    p4:'Reviews are subjective. It is hard to say what good looks like or measure growth.',
-    p5:'Managers coach differently, so growth depends on which manager someone drew.',
-    p6:'When a strong Product Manager leaves, hard won know how leaves with them.',
-    costLine:'Talent is not the gap. <span class="hl">A shared way to grow it is.</span>',
-    costLead:'You have hired capable people. What is missing is a common standard for the craft, so growth does not depend on luck. Three things drive the waste.',
-    rs1h:'Good is undefined',rs1p:'When good depends on who you ask, reviews drift and development has no target to aim at.',
-    rs2h:'Ramp by osmosis',rs2p:'Without a method, new Product Managers learn slowly, and the cost shows up in time and turnover.',
-    rs3h:'Know how walks out',rs3p:'When the craft lives only in senior heads, every departure takes capability with it.',
-    resH:'After a coaching cycle, Product Managers jump a full tier.',
-    ladderH:'We do not run a workshop and leave. <span class="hl">We help build a development engine that lasts.</span>',
-    ladderLead:'One off training fades by the next sprint. So we set a shared standard, then coach it into daily habits, so development keeps running after we are gone. You can pause at any stage.',
-    r1h:'Product Mindset Snapshot',r1p:'We read how your Product Managers are developing today and where skill gaps cluster, by level and team, with a clear before to measure against.',r1w:'People and Product',
-    r2h:'Envision: define good',r2p:'We help People and product leaders agree on what good looks like at each level, so hiring, reviews, and promotions point the same way.',r2w:'HR and Product',
-    r3h:'Empower: build the craft',r3p:'Your Product Managers learn the Product Empowerment Pyramid and the E3 Product Mindset, with a certificate that marks the standard and drops ramp time.',r3w:'HR and L&D',
-    r4h:'Elevate: coach the managers',r4p:'We equip your managers to coach from a common playbook in real work, so development is consistent across teams.',r4w:'People Managers',
-    r5h:'Sustain: a living path',r5p:'We help embed the standard into onboarding and leveling, so ramp, growth, and retention keep compounding.',r5w:'HR and People',
-    finalH:'See how your Product Manager <span class="hl">bench is developing.</span>',
-    finalP:'No slide deck, and no discovery call that is really a sales call. Take the Snapshot and we send back an honest read of where your Product Managers stand, plus one idea you can use this week.',
-    spotlight:'hr'
-  }
-};
-
-const swapEls=[...document.querySelectorAll('[data-k]')];
-function applyAud(aud){
-  const data=C[aud];
-  swapEls.forEach(el=>{const k=el.dataset.k;if(data[k]===undefined)return;el.innerHTML=data[k];});
-  document.querySelectorAll('.who-card').forEach(c=>c.classList.remove('spotlight'));
-  const t=document.querySelector('.who-card[data-card="'+aud+'"]');
-  if(t)t.classList.add('spotlight');
-  if(typeof resetDiag==='function'){try{resetDiag();}catch(e){}}
-}
-
-const sw=document.getElementById('switch');
-const pill=document.getElementById('pill');
-const btns=[...sw.querySelectorAll('button')];
-function movePill(btn){pill.style.left=btn.offsetLeft+'px';pill.style.width=btn.offsetWidth+'px';}
-function fadeSwap(aud){
-  const f=[...document.querySelectorAll('.swap')];
-  f.forEach(e=>e.classList.add('fade'));
-  setTimeout(()=>{applyAud(aud);f.forEach(e=>e.classList.remove('fade'));},260);
-}
-btns.forEach(b=>b.addEventListener('click',()=>{btns.forEach(x=>x.classList.remove('on'));b.classList.add('on');movePill(b);fadeSwap(b.dataset.aud);}));
-window.addEventListener('load',()=>{movePill(btns[0]);applyAud('cpo');});
-window.addEventListener('resize',()=>movePill(sw.querySelector('.on')));
+/* persona swap system removed in the editorial rework: sections are static now */
 
 /* drawer */
 const burger=document.getElementById('navBurger');
@@ -289,6 +160,8 @@ if(burger){burger.addEventListener('click',()=>setDrawer(!drawer.classList.conta
       openModal({kind:kind,eyebrow:'Product Thinking Diagnostic',title:'Book the Product Thinking Diagnostic',intro:'The Diagnostic is how most engagements begin. Tell us about your team and we will set up the first conversation.',reasonLabel:'Tell us about your team, your goals, and your timing'});
     }else if(kind==='course'){
       openModal({kind:kind,eyebrow:'Product Management Accelerator',title:'Enroll your team',intro:'Tell us how many seats you need and we will set up enrollment, including volume pricing and a single invoice for cohorts.',reasonLabel:'How many Product Managers, and what timing?'});
+    }else if(kind==='north'){
+      openModal({kind:kind,eyebrow:'North by Product Prot\u00e9g\u00e9',title:'See North in action',intro:'Tell us about your team and we will set up a walkthrough of North with one of our coaches.',reasonLabel:'What tooling do you use today, and what is prompting the change?'});
     }else if(kind==='mix'){
       openModal({kind:kind,eyebrow:'Your engagement mix',title:'Talk through this plan',intro:'We will review your selected modules and come back with how we would sequence and price them for your team.',reasonLabel:'Anything we should know about your team or goals?',reasonPrefill:t.getAttribute('data-modules')?('Modules I am interested in: '+t.getAttribute('data-modules')+'\n\n'):''});
     }else{
@@ -306,7 +179,7 @@ if(burger){burger.addEventListener('click',()=>setDrawer(!drawer.classList.conta
     if(!ok)return;
     var sb=document.getElementById('cmSubmit'), err=document.getElementById('cmError');
     sb.disabled=true;sb.textContent='Sending\u2026';err.style.display='none';
-    var labels={advisor:'Product Advisor enquiry',coaching:'Coaching enquiry',diagnostic:'Product Thinking Diagnostic booking',mix:'Engagement mix enquiry',course:'Course enrollment enquiry'};
+    var labels={advisor:'Product Advisor enquiry',coaching:'Coaching enquiry',diagnostic:'Product Thinking Diagnostic booking',mix:'Engagement mix enquiry',course:'Course enrollment enquiry',north:'North demo request'};
     window.__ppSend({
       name:fields.first.value.trim()+' '+fields.last.value.trim(),
       email:fields.email.value.trim(),
@@ -321,68 +194,7 @@ if(burger){burger.addEventListener('click',()=>setDrawer(!drawer.classList.conta
   });
 })();
 
-/* snapshot signals (home teaser) */
-const pains=[...document.querySelectorAll('.pain')];
-const result=document.getElementById('result');
-
-// each signal maps to a short theme name and an audience-aware implication
-const SIG={
-  outcomes:{theme:'measuring outcomes',
-    cpo:'hard to tie shipped work to outcomes',exec:'a thin link between spend and business results',hr:'no shared way to show the value of the work'},
-  roadmap:{theme:'a deliberate roadmap',
-    cpo:'a roadmap driven by requests rather than strategy',exec:'priorities set by the loudest voice, not the biggest opportunity',hr:'planning that does not reflect a shared standard'},
-  ownership:{theme:'true product ownership',
-    cpo:'Product Managers acting as order takers, not owners',exec:'a strong team still operating as project delivery',hr:'talented people without a clear path to strategic ownership'},
-  problem:{theme:'problem framing',
-    cpo:'debating what to build before which problem to solve',exec:'big bets that arrive late because the problem was fuzzy',hr:'reviews that cannot say what good problem framing looks like'},
-  adoption:{theme:'proof of adoption',
-    cpo:'features that launch, see little use, and quietly fade',exec:'launches with no measured return',hr:'work that ships without evidence of impact to learn from'},
-  retention:{theme:'durable know-how',
-    cpo:'the way of working leaving when a strong Product Manager leaves',exec:'institutional knowledge that walks out the door',hr:'hard-won know-how lost with every departure'}
-};
-const AUD_FRAME={
-  cpo:{lead:'For a product leader, that points to',close:'The full Snapshot scores all eight themes and hands you a plan, not a pitch.'},
-  exec:{lead:'From the top, that points to',close:'The full Snapshot translates this into where the return leaks, in terms your board uses.'},
-  hr:{lead:'For People and Talent, that points to',close:'The full Snapshot shows how your bench is developing and where to focus growth.'}
-};
-function currentAud(){return sw.querySelector('.on').dataset.aud;}
-function renderVerdict(){
-  const chosen=pains.filter(p=>p.classList.contains('checked'));
-  const n=chosen.length;
-  if(n===0){result.innerHTML='<div class="verdict" data-empty>Tick the ones that ring true. We will reflect back what they point to.</div>';return;}
-  const aud=currentAud();
-  const keys=chosen.map(p=>p.dataset.sig);
-  // headline scales with how many signals, but body is built from the actual selections
-  let head;
-  if(n===1)head='One signal worth a closer look.';
-  else if(n===2)head='A pattern starting to form.';
-  else if(n<=4)head='A clear pattern across your team.';
-  else head='A strong signal across the board.';
-  // build the specific implication phrases from the chosen signals
-  const phrases=keys.map(k=>SIG[k][aud]);
-  let body;
-  if(phrases.length===1)body=phrases[0]+'.';
-  else if(phrases.length===2)body=phrases[0]+', and '+phrases[1]+'.';
-  else body=phrases.slice(0,-1).join(', ')+', and '+phrases[phrases.length-1]+'.';
-  const themes=keys.map(k=>SIG[k].theme);
-  const themeList=themes.length===1?themes[0]:(themes.slice(0,-1).join(', ')+' and '+themes[themes.length-1]);
-  const frame=AUD_FRAME[aud];
-  result.innerHTML='<div class="score">'+head+'</div><div class="verdict">'+frame.lead+' '+body+
-    '<span>You flagged '+themeList+'. '+frame.close+'</span></div>'+
-    '<a role="button" tabindex="0" data-view="snapshot" class="btn btn-yellow diag-cta">Take the Product Snapshot to learn more about how we can help</a>';
-}
-function resetDiag(){pains.forEach(p=>{p.classList.remove('checked');const b=p.querySelector('.box');if(b)b.textContent='';});result.innerHTML='<div class="verdict" data-empty>Tick the ones that ring true. We will reflect back what they point to.</div>';}
-pains.forEach(p=>p.addEventListener('click',function(e){
-  e.preventDefault();
-  // pure multiselect toggle: update state and text only, never move the page
-  var sx=window.scrollX, sy=window.scrollY;
-  p.classList.toggle('checked');
-  p.querySelector('.box').textContent=p.classList.contains('checked')?'\u2713':'';
-  renderVerdict();
-  // restore scroll position synchronously and on next frame, so nothing jumps
-  window.scrollTo(sx,sy);
-  requestAnimationFrame(function(){window.scrollTo(sx,sy);});
-}));
+/* home signals module removed in the editorial rework */
 
 /* count up */
 function animateCount(el){
@@ -783,7 +595,7 @@ function showResults(){
   html+='</div></div>';
 
   // CTA
-  html+='<div class="res-cta"><h2>'+f.cta+'</h2><p>'+f.ctaP+'</p><div class="row"><a role="button" tabindex="0" data-contact="diagnostic" class="btn btn-dark">Book the Product Thinking Diagnostic</a><a href="#work" data-view="work" class="btn btn-light">See how we work</a></div></div>';
+  html+='<div class="res-cta"><h2>'+f.cta+'</h2><p>'+f.ctaP+'</p><div class="row"><a role="button" tabindex="0" data-contact="diagnostic" class="btn btn-dark">Book the Product Thinking Diagnostic</a><a role="button" tabindex="0" data-view="work" class="btn btn-light">See how we work</a></div></div>';
 
   // lead capture
   html+='<div class="lead" id="leadBox"><h3>'+f.leadH+'</h3><p>'+f.leadP+'</p><div class="frow"><input type="email" id="leadEmail" placeholder="you@company.com" autocomplete="email"><button class="btn btn-yellow" id="leadBtn" style="flex:0 0 auto">Send my results</button></div><div class="fine">We use this only to follow up about your Snapshot. No list-selling, no spam.</div></div>';
@@ -791,7 +603,7 @@ function showResults(){
   html+='<div class="restart"><button id="restartBtn">Start over</button></div>';
   html+='<div class="footnote">Scored on the eight themes behind the E3 Product Mindset and the Product Empowerment Pyramid. Ready for the full picture? The Product Thinking Diagnostic, run with our team, scores each Product Manager and the whole cohort and feeds a tailored engagement plan.</div>';
 
-  resultsScreen.innerHTML=html;
+  resultsScreen.innerHTML='<a role="button" tabindex="0" data-view="home" class="view-back" style="margin-bottom:16px">&#8592; Back to home</a>'+html;
   quizScreen.style.display='none';
   progressWrap.style.display='none';
   resultsScreen.style.display='block';
@@ -843,7 +655,7 @@ function showResults(){
 
 const MOD_NAMES={
   snapshot:"Product Thinking Diagnostic",discovery:"Discovery",training:"Live Training",
-  coaching:"1:1 Live Coaching",library:"Protégé Library",course:"Online Course",
+  coaching:"1:1 Live Coaching",library:"Protégé Library",north:"North",course:"Online Course",
   advising:"Strategic Advising",advisor:"Fractional Product Advisor"
 };
 // what each module contributes, phrased as a capability
@@ -853,11 +665,12 @@ const MOD_CAP={
   training:"a shared language across the team through live training on the E3 Product Mindset",
   coaching:"habit change that sticks, with weekly 1:1 coaching turning concepts into daily practice",
   library:"always-on access to the templates and playbooks that keep quality consistent",
+  north:"an AI native tooling platform that keeps backlogs, roadmaps, and OKRs aligned to strategy and coaches Product Managers in the flow of their daily work",
   course:"a repeatable baseline that scales to new hires through the self-paced course",
   advising:"a senior outside voice on the hard calls, on demand",
   advisor:"a steady leadership-level partner who keeps the standard honest over time"
 };
-const PHASE={snapshot:'assess',discovery:'align',training:'align',coaching:'align',library:'scale',course:'scale',advising:'sustain',advisor:'sustain'};
+const PHASE={snapshot:'assess',discovery:'align',training:'align',coaching:'align',library:'scale',north:'scale',course:'scale',advising:'sustain',advisor:'sustain'};
 
 const grid=document.getElementById('modGrid');
 const modPicked=document.getElementById('modPicked');
@@ -888,6 +701,7 @@ function headline(on){
       training:["A shared language, fast","Live training alone resets the vocabulary and the standard for the whole team in days. Pair it with coaching when you want the change to stick."],
       coaching:["Deep, lasting change for a few","1:1 coaching alone drives real habit change for the people in it. Add training first when you want the whole team moving together."],
       library:["Always-on enablement","The Library alone keeps quality consistent and answers close at hand. It compounds once a shared language is in place."],
+      north:["Tooling with coaching built in","North alone gives your team an AI native system for backlogs, roadmaps, and OKR alignment, and it coaches every Product Manager on requirements, storytelling, and strategic thinking while they work. Pair it with live coaching and the habits set even faster."],
       course:["Scalable fundamentals","The course alone gives individuals and new hires a solid, certified baseline. It pairs naturally with the Library for reinforcement."],
       advising:["Senior help on demand","Strategic Advising alone gives you an experienced outside voice for the hard calls, drawn down only as you need it."],
       advisor:["A steady leadership partner","A Fractional Advisor alone keeps the product mindset honest at the top. It is most powerful after a coaching cycle has set the standard."]
@@ -899,7 +713,7 @@ function headline(on){
     return["Built to change how the team works","This is the combination behind a full-tier jump in a single cycle. You measure the baseline, set one shared language through training, then make it stick with coaching, so quality stops running through one or two people."];
   if(has('snapshot')&&has('discovery')&&!has('training')&&!has('coaching'))
     return["Built to find the real gaps","Together the Diagnostic and Discovery give you a precise, evidence-based picture of where the team stands and what to prioritize, the right groundwork before any training or coaching investment."];
-  if((has('library')||has('course'))&&!has('coaching')&&!has('training'))
+  if((has('library')||has('course')||has('north'))&&!has('coaching')&&!has('training'))
     return["Built to scale and sustain","This mix keeps the product mindset alive across the org. Shared tools and a self-paced baseline mean new people absorb the standard on day one and quality holds as you grow."];
   if((has('advisor')||has('advising'))&&!has('training')&&!has('coaching'))
     return["Built for senior guidance","This mix surrounds your leaders with experienced outside judgment on the decisions that carry the most risk, without adding headcount."];
@@ -944,6 +758,29 @@ grid.querySelectorAll('.mod').forEach(m=>m.addEventListener('click',function(e){
   requestAnimationFrame(function(){window.scrollTo(sx,sy);});
 }));
 
+/* builder presets: pre-select a starting mix, editable afterward */
+var PRESETS={read:['snapshot'],lift:['snapshot','discovery','training','coaching','library'],standard:['training','course','library','north','advising','advisor'],scratch:[]};
+var presetRow=document.getElementById('presetRow');
+if(presetRow){
+  presetRow.querySelectorAll('.preset').forEach(function(btn){
+    btn.addEventListener('click',function(e){
+      e.preventDefault();
+      var sx=window.scrollX, sy=window.scrollY;
+      presetRow.querySelectorAll('.preset').forEach(function(b){b.classList.remove('on');});
+      btn.classList.add('on');
+      var ids=PRESETS[btn.dataset.preset]||[];
+      grid.querySelectorAll('.mod').forEach(function(m){
+        var on=ids.indexOf(m.dataset.id)>-1;
+        m.classList.toggle('on',on);
+        m.querySelector('.check').textContent=on?'\u2713':'';
+      });
+      refresh();
+      window.scrollTo(sx,sy);
+      requestAnimationFrame(function(){window.scrollTo(sx,sy);});
+    });
+  });
+}
+
 builderCta.addEventListener('click',function(){
   renderMix();
   setTimeout(function(){
@@ -961,4 +798,17 @@ const io=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){e.tar
 document.querySelectorAll('.reveal').forEach((el,i)=>{el.style.transitionDelay=(i%3)*0.05+'s';io.observe(el);});
 
 
+})();
+
+/* north video: graceful fallback when the media file is not present (e.g. single-file preview) */
+(function(){
+  document.querySelectorAll('video[data-fallback]').forEach(function(v){
+    v.addEventListener('error',function(){
+      var fb=v.parentElement.querySelector('.video-fb');
+      if(!fb)return;
+      var im=fb.querySelector('img');
+      if(im&&!im.src)im.src=v.getAttribute('poster');
+      v.style.display='none';fb.hidden=false;
+    },true);
+  });
 })();
