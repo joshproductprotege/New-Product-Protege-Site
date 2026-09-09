@@ -1,5 +1,29 @@
 # Changelog
 
+## September 9, 2026: canvas edits, landing page rework, coaches page, CI coverage
+- Landing page: hero photo and ideation photo sit beside their copy; the situation cards
+  became a six-item challenge picker that composes a one-sentence suggestion and a
+  Book a call button; "The outcome" cards, "Why your seat cares", "Built to your shape",
+  "Why our approach works", and the "Start here" spec card were removed; "The proof"
+  numbers now carry the eyebrow "The outcome" with the two testimonials side by side;
+  a See How We Work button sits under the collective section copy.
+- How We Work: the module list (now eight, with Strategic Advising and the Fractional
+  Product Advisor merged into Product Advisor) opens the page; the engagement builder
+  matches; "From feature factory to value driver" sits on a full-bleed forest band; the
+  page closes with the same two-card section as the landing page; the secondary button
+  in the mix panel is readable.
+- Coaches: founder block for Jason with his photo, then a pale-green "Who you might be
+  matched with" list with rounded portraits; J'Nae added; logo strip returned beneath
+  the hero; Carter's and Cox logos self-hosted; coach photos replaced.
+- North: dashboard screenshot beside the headline. Diagnostic and other pages: copy
+  edits ported from the design canvas.
+- Accessibility and CI: Enter and Space now activate role="button" links; the hero
+  photo is no longer lazy-loaded; Resources heading order fixed; the Lighthouse
+  workflow also runs on every push to main.
+- Asset links carry a version query so Netlify's one-week cache cannot serve stale
+  CSS or JS after a deploy.
+- README rewritten as a handoff guide.
+
 ## Link hardening + North label
 - Removed href attributes from all internal links (82 converted to data-view/data-anchor
   routing) and added a capture-phase navigation guard, eliminating every possible
