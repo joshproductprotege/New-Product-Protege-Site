@@ -656,7 +656,7 @@ function showResults(){
 const MOD_NAMES={
   snapshot:"Product Thinking Diagnostic",discovery:"Discovery",training:"Live Training",
   coaching:"1:1 Live Coaching",library:"Protégé Library",north:"North",course:"Online Course",
-  advising:"Strategic Advising",advisor:"Fractional Product Advisor"
+  advisor:"Product Advisor"
 };
 // what each module contributes, phrased as a capability
 const MOD_CAP={
@@ -667,10 +667,9 @@ const MOD_CAP={
   library:"always-on access to the templates and playbooks that keep quality consistent",
   north:"an AI native tooling platform that keeps backlogs, roadmaps, and OKRs aligned to strategy and coaches Product Managers in the flow of their daily work",
   course:"a repeatable baseline that scales to new hires through the self-paced course",
-  advising:"a senior outside voice on the hard calls, on demand",
-  advisor:"a steady leadership-level partner who keeps the standard honest over time"
+  advisor:"a senior outside voice on the hard calls and a steady partner who keeps the standard honest over time"
 };
-const PHASE={snapshot:'assess',discovery:'align',training:'align',coaching:'align',library:'scale',north:'scale',course:'scale',advising:'sustain',advisor:'sustain'};
+const PHASE={snapshot:'assess',discovery:'align',training:'align',coaching:'align',library:'scale',north:'scale',course:'scale',advisor:'sustain'};
 
 const grid=document.getElementById('modGrid');
 const modPicked=document.getElementById('modPicked');
@@ -703,8 +702,7 @@ function headline(on){
       library:["Always-on enablement","The Library alone keeps quality consistent and answers close at hand. It compounds once a shared language is in place."],
       north:["Tooling with coaching built in","North alone gives your team an AI native system for backlogs, roadmaps, and OKR alignment, and it coaches every Product Manager on requirements, storytelling, and strategic thinking while they work. Pair it with live coaching and the habits set even faster."],
       course:["Scalable fundamentals","The course alone gives individuals and new hires a solid, certified baseline. It pairs naturally with the Library for reinforcement."],
-      advising:["Senior help on demand","Strategic Advising alone gives you an experienced outside voice for the hard calls, drawn down only as you need it."],
-      advisor:["A steady leadership partner","A Fractional Advisor alone keeps the product mindset honest at the top. It is most powerful after a coaching cycle has set the standard."]
+      advisor:["A senior thinking partner","The Product Advisor alone gives you an experienced outside voice for the hard calls and keeps the product mindset honest at the top. It is most powerful after a coaching cycle has set the standard."]
     };
     return map[only];
   }
@@ -715,7 +713,7 @@ function headline(on){
     return["Built to find the real gaps","Together the Diagnostic and Discovery give you a precise, evidence-based picture of where the team stands and what to prioritize, the right groundwork before any training or coaching investment."];
   if((has('library')||has('course')||has('north'))&&!has('coaching')&&!has('training'))
     return["Built to scale and sustain","This mix keeps the product mindset alive across the org. Shared tools and a self-paced baseline mean new people absorb the standard on day one and quality holds as you grow."];
-  if((has('advisor')||has('advising'))&&!has('training')&&!has('coaching'))
+  if(has('advisor')&&!has('training')&&!has('coaching'))
     return["Built for senior guidance","This mix surrounds your leaders with experienced outside judgment on the decisions that carry the most risk, without adding headcount."];
   if(span>=3)
     return["Built for end-to-end transformation","This spans assess, align, and scale. You prove the gap, lift the team with a shared language and coaching, then lock it in with always-on enablement so the change outlasts any reorg."];
@@ -759,7 +757,7 @@ grid.querySelectorAll('.mod').forEach(m=>m.addEventListener('click',function(e){
 }));
 
 /* builder presets: pre-select a starting mix, editable afterward */
-var PRESETS={read:['snapshot'],lift:['snapshot','discovery','training','coaching','library'],standard:['training','course','library','north','advising','advisor'],scratch:[]};
+var PRESETS={read:['snapshot'],lift:['snapshot','discovery','training','coaching','library'],standard:['training','course','library','north','advisor'],scratch:[]};
 var presetRow=document.getElementById('presetRow');
 if(presetRow){
   presetRow.querySelectorAll('.preset').forEach(function(btn){
