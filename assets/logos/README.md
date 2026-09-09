@@ -12,8 +12,8 @@ PNG, change the extension in the `<img src>` for that row in `index.html`).
 | `hdsupply.svg`      | HD Supply          | hdsupply.com (footer / press kit)          |
 | `statefarm.svg`     | State Farm         | statefarm.com newsroom / brand assets      |
 | `usaa.png`          | USAA               | provided by Josh, July 2026 (in place)      |
-| `carters.svg`       | Carter's           | carters.com / ir.carters.com               |
-| `cox.svg`           | Cox Communications | cox.com / coxmedia brand assets            |
+| `carters.png`       | Carter's           | provided by Josh, September 2026 (in place) |
+| `cox.png`           | Cox Communications | provided by Josh, September 2026 (in place) |
 | `ingage.svg`        | Ingage             | ingage.io press / brand                     |
 | `emusic.svg`        | eMusic             | emusic.com                                  |
 | `glg.svg`           | GLG                | glginsights.com press / brand              |
