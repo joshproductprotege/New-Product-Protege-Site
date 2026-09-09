@@ -793,72 +793,61 @@ builderCta.addEventListener('click',function(){
 
 refresh();
 
-/* ===== home: challenge picker, recommendations built from what is selected ===== */
+/* ===== home: challenge picker, a sentence-style suggestion built from what is selected ===== */
 (function(){
   var picks=document.getElementById('challengePicks');if(!picks)return;
   var out=document.getElementById('pickResult'), note=document.getElementById('pickNote');
   var OFFER={
-    diagnostic:{name:'The Product Thinking Diagnostic',view:'diagnostic'},
-    north:{name:'North',view:'north'},
+    diagnostic:{name:'the Product Thinking Diagnostic',view:'diagnostic'},
+    north:{name:'North (our tooling platform)',view:'north'},
     coaching:{name:'Coaching',view:'coaching'},
-    course:{name:'The Online Course',view:'course'},
-    advisor:{name:'The Fractional Product Advisor',view:'advisor'},
-    snapshot:{name:'The Product Mindset Snapshot',view:'snapshot'}
+    course:{name:'the Online Course',view:'course'},
+    advisor:{name:'Product Advising',view:'advisor'},
+    snapshot:{name:'the Product Mindset Snapshot',view:'snapshot'}
   };
-  // each challenge lists the offerings that answer it, strongest first, with the reason
+  // each challenge scores the offerings that answer it (3 strongest, 1 weakest) and gives the reason
   var RECS={
-    outcomes:[
-      ['north','keeps every epic and story tied to the pillar and metric above it, so leadership can see what each release was meant to move'],
-      ['diagnostic','shows where the connection between the work and the strategy is thin, team by team']
-    ],
-    misalignment:[
-      ['advisor','fixes the strategy before the ticket. A senior product mind pressure tests the pillars every team is supposed to aim at'],
-      ['north','holds vision, strategy, roadmap, epics, and stories as one connected graph, so a story cannot float free of a pillar'],
-      ['diagnostic','scores how well each Product Manager connects their work to the strategy, so you know where alignment breaks down']
-    ],
-    craft:[
-      ['diagnostic','scores every Product Manager across the eight product themes, so the gaps are named precisely before anything is bought'],
-      ['coaching','turns the gaps the Diagnostic finds into habits, on real work, week by week'],
-      ['course','sets one shared baseline across the team, with cohort pricing for organizations']
-    ],
-    unknown:[
-      ['diagnostic','is built for exactly this. A structured, data-backed read on your team before a dollar goes toward fixing anything'],
-      ['snapshot','gives you a two-minute taste right now, no email needed to begin']
-    ],
-    advisor:[
-      ['advisor','is a standing sounding board for your real decisions. Roadmap reviews, pre-board prep, and a peer who has sat in the seat']
-    ],
-    prioritization:[
-      ['north','brings weighted scoring and one set of success measures to the backlog, so the strategy decides the quarter instead of the loudest voice'],
-      ['coaching','installs the 8-Stage Prioritization Flow, so every request meets the same filter'],
-      ['advisor','puts an outside voice in the room when the quarter is being fought over']
-    ]
+    outcomes:[['north',3,'keeps every epic and story tied to the pillar and metric above it, so leadership can see what each release was meant to move'],
+              ['diagnostic',2,'shows where the connection between the work and the strategy is thin, team by team']],
+    misalignment:[['advisor',3,'fixes the strategy before the ticket. A senior product mind pressure tests the pillars every team is supposed to aim at'],
+                  ['north',2,'holds vision, strategy, roadmap, epics, and stories as one connected graph, so a story cannot float free of a pillar'],
+                  ['diagnostic',1,'scores how well each Product Manager connects their work to the strategy']],
+    craft:[['diagnostic',3,'scores every Product Manager across the eight product themes, so the gaps are named precisely before anything is bought'],
+           ['coaching',2,'turns the gaps the Diagnostic finds into habits, on real work, week by week'],
+           ['course',1,'sets one shared baseline across the team, with cohort pricing for organizations']],
+    unknown:[['diagnostic',3,'is built for exactly this. A structured, data-backed read on your team before a dollar goes toward fixing anything'],
+             ['snapshot',2,'gives you a two-minute taste right now, no email needed to begin']],
+    advisor:[['advisor',3,'is a standing sounding board for your real decisions. Roadmap reviews, pre-board prep, and a peer who has sat in the seat']],
+    prioritization:[['north',3,'brings weighted scoring and one set of success measures to the backlog, so the strategy decides the quarter instead of the loudest voice'],
+                    ['coaching',2,'installs the 8-Stage Prioritization Flow, so every request meets the same filter'],
+                    ['advisor',1,'puts an outside voice in the room when the quarter is being fought over']]
   };
+  function cap(str){return str.charAt(0).toUpperCase()+str.slice(1);}
+  function link(id,first){return '<a role="button" tabindex="0" data-view="'+OFFER[id].view+'" class="pick-link">'+(first?cap(OFFER[id].name):OFFER[id].name)+'</a>';}
   function selected(){return [].slice.call(picks.querySelectorAll('.pick[aria-checked="true"]')).map(function(b){return b.getAttribute('data-ch');});}
   function render(){
     var on=selected();
-    if(!on.length){out.style.display='none';out.innerHTML='';note.textContent='Select one or more to see what we would recommend.';return;}
-    note.textContent=on.length+' selected. Change your picks any time and the plan updates.';
+    if(!on.length){out.style.display='none';out.innerHTML='';note.textContent='Select one or more to see what we would suggest.';return;}
+    note.textContent=on.length+' selected. Change your picks any time and the suggestion updates.';
     var score={},reason={},order=[];
     on.forEach(function(ch){
-      (RECS[ch]||[]).forEach(function(r,i){
-        var id=r[0];
-        if(!score[id]){score[id]=0;reason[id]=r[1];order.push(id);}
-        score[id]+=(3-Math.min(i,2));
+      (RECS[ch]||[]).forEach(function(r){
+        if(!score[r[0]]){score[r[0]]=0;reason[r[0]]=r[2];order.push(r[0]);}
+        score[r[0]]+=r[1];
       });
     });
     order.sort(function(a,b){return score[b]-score[a];});
-    var head=on.length===1?'One clear place to start.':on.length<4?'A focused plan for what you picked.':'A wider gap, with a sequence to close it.';
-    var html='<div class="mix-inner"><div class="mix-k">What we would recommend</div><h3>'+head+'</h3>';
-    html+='<p class="mix-lead">Based on the '+(on.length===1?'challenge':on.length+' challenges')+' you selected, here is where we would begin and why.</p>';
-    html+='<div class="mix-list">';
-    order.forEach(function(id){
-      var o=OFFER[id];
-      html+='<div class="mix-item"><span class="mi-ic">✓</span><span><a role="button" tabindex="0" data-view="'+o.view+'" class="mix-link">'+o.name+'</a> '+reason[id]+'.</span></div>';
-    });
-    html+='</div>';
-    html+='<div class="mix-cta"><a role="button" tabindex="0" data-contact="diagnostic" class="btn btn-yellow">Book a call</a><a role="button" tabindex="0" data-view="snapshot" class="btn btn-dark">Take the 2-minute Snapshot first</a></div>';
-    html+='<p class="mix-fine">Every engagement starts from the Product Thinking Diagnostic, so the plan gets sized to your team and your budget.</p></div>';
+    // lead with the strongest fit, add up to two more that scored as a real fit rather than a mention
+    var fit=order.filter(function(id,i){return i===0||score[id]>=2;}).slice(0,3);
+    var names=fit.map(function(id,i){return link(id,i===0);});
+    var say;
+    if(names.length===1)say=names[0]+' could help get you on the right track.';
+    else if(names.length===2)say=names[0]+' and '+names[1]+' would be a good fit to help.';
+    else say=names[0]+', '+names[1]+', and '+names[2]+' would be a good fit to help.';
+    var html='<div class="eb eb-t">Where we would start</div><p class="pick-say">'+say+'</p><ul class="pick-why">';
+    fit.forEach(function(id){html+='<li><b>'+cap(OFFER[id].name)+'</b> '+reason[id]+'.</li>';});
+    html+='</ul><div class="alt-cta"><a role="button" tabindex="0" data-contact="diagnostic" class="btn btn-yellow">Book a call</a><a role="button" tabindex="0" data-view="snapshot" class="alink">Take the 2-minute Snapshot first <span class="ar">&#8594;</span></a></div>';
+    html+='<p class="subnote">Every engagement starts with the Product Thinking Diagnostic, so whatever we suggest gets sized to your team and your budget.</p>';
     out.innerHTML=html;
     out.style.display='block';
   }
@@ -869,7 +858,7 @@ refresh();
     var sx=window.scrollX, sy=window.scrollY;
     var on=b.getAttribute('aria-checked')!=='true';
     b.setAttribute('aria-checked',on?'true':'false');
-    b.querySelector('.pk').textContent=on?'✓':'';
+    b.querySelector('.pk').textContent=on?'\u2713':'';
     render();
     window.scrollTo(sx,sy);
     requestAnimationFrame(function(){window.scrollTo(sx,sy);});
