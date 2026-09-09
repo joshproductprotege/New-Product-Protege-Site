@@ -793,6 +793,89 @@ builderCta.addEventListener('click',function(){
 
 refresh();
 
+/* ===== home: challenge picker, recommendations built from what is selected ===== */
+(function(){
+  var picks=document.getElementById('challengePicks');if(!picks)return;
+  var out=document.getElementById('pickResult'), note=document.getElementById('pickNote');
+  var OFFER={
+    diagnostic:{name:'The Product Thinking Diagnostic',view:'diagnostic'},
+    north:{name:'North',view:'north'},
+    coaching:{name:'Coaching',view:'coaching'},
+    course:{name:'The Online Course',view:'course'},
+    advisor:{name:'The Fractional Product Advisor',view:'advisor'},
+    snapshot:{name:'The Product Mindset Snapshot',view:'snapshot'}
+  };
+  // each challenge lists the offerings that answer it, strongest first, with the reason
+  var RECS={
+    outcomes:[
+      ['north','keeps every epic and story tied to the pillar and metric above it, so leadership can see what each release was meant to move'],
+      ['diagnostic','shows where the connection between the work and the strategy is thin, team by team']
+    ],
+    misalignment:[
+      ['advisor','fixes the strategy before the ticket. A senior product mind pressure tests the pillars every team is supposed to aim at'],
+      ['north','holds vision, strategy, roadmap, epics, and stories as one connected graph, so a story cannot float free of a pillar'],
+      ['diagnostic','scores how well each Product Manager connects their work to the strategy, so you know where alignment breaks down']
+    ],
+    craft:[
+      ['diagnostic','scores every Product Manager across the eight product themes, so the gaps are named precisely before anything is bought'],
+      ['coaching','turns the gaps the Diagnostic finds into habits, on real work, week by week'],
+      ['course','sets one shared baseline across the team, with cohort pricing for organizations']
+    ],
+    unknown:[
+      ['diagnostic','is built for exactly this. A structured, data-backed read on your team before a dollar goes toward fixing anything'],
+      ['snapshot','gives you a two-minute taste right now, no email needed to begin']
+    ],
+    advisor:[
+      ['advisor','is a standing sounding board for your real decisions. Roadmap reviews, pre-board prep, and a peer who has sat in the seat']
+    ],
+    prioritization:[
+      ['north','brings weighted scoring and one set of success measures to the backlog, so the strategy decides the quarter instead of the loudest voice'],
+      ['coaching','installs the 8-Stage Prioritization Flow, so every request meets the same filter'],
+      ['advisor','puts an outside voice in the room when the quarter is being fought over']
+    ]
+  };
+  function selected(){return [].slice.call(picks.querySelectorAll('.pick[aria-checked="true"]')).map(function(b){return b.getAttribute('data-ch');});}
+  function render(){
+    var on=selected();
+    if(!on.length){out.style.display='none';out.innerHTML='';note.textContent='Select one or more to see what we would recommend.';return;}
+    note.textContent=on.length+' selected. Change your picks any time and the plan updates.';
+    var score={},reason={},order=[];
+    on.forEach(function(ch){
+      (RECS[ch]||[]).forEach(function(r,i){
+        var id=r[0];
+        if(!score[id]){score[id]=0;reason[id]=r[1];order.push(id);}
+        score[id]+=(3-Math.min(i,2));
+      });
+    });
+    order.sort(function(a,b){return score[b]-score[a];});
+    var head=on.length===1?'One clear place to start.':on.length<4?'A focused plan for what you picked.':'A wider gap, with a sequence to close it.';
+    var html='<div class="mix-inner"><div class="mix-k">What we would recommend</div><h3>'+head+'</h3>';
+    html+='<p class="mix-lead">Based on the '+(on.length===1?'challenge':on.length+' challenges')+' you selected, here is where we would begin and why.</p>';
+    html+='<div class="mix-list">';
+    order.forEach(function(id){
+      var o=OFFER[id];
+      html+='<div class="mix-item"><span class="mi-ic">✓</span><span><a role="button" tabindex="0" data-view="'+o.view+'" class="mix-link">'+o.name+'</a> '+reason[id]+'.</span></div>';
+    });
+    html+='</div>';
+    html+='<div class="mix-cta"><a role="button" tabindex="0" data-contact="diagnostic" class="btn btn-yellow">Book a call</a><a role="button" tabindex="0" data-view="snapshot" class="btn btn-dark">Take the 2-minute Snapshot first</a></div>';
+    html+='<p class="mix-fine">Every engagement starts from the Product Thinking Diagnostic, so the plan gets sized to your team and your budget.</p></div>';
+    out.innerHTML=html;
+    out.style.display='block';
+  }
+  picks.addEventListener('click',function(e){
+    var b=e.target.closest('.pick');if(!b)return;
+    e.preventDefault();
+    // pure multiselect toggle: never move the page when a challenge is selected
+    var sx=window.scrollX, sy=window.scrollY;
+    var on=b.getAttribute('aria-checked')!=='true';
+    b.setAttribute('aria-checked',on?'true':'false');
+    b.querySelector('.pk').textContent=on?'✓':'';
+    render();
+    window.scrollTo(sx,sy);
+    requestAnimationFrame(function(){window.scrollTo(sx,sy);});
+  });
+})();
+
 /* reveal */
 const io=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{threshold:.14});
 document.querySelectorAll('.reveal').forEach((el,i)=>{el.style.transitionDelay=(i%3)*0.05+'s';io.observe(el);});

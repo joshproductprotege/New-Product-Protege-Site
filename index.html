@@ -116,6 +116,8 @@
 
 <header class="asec" style="padding-bottom:30px">
   <div class="wrap">
+    <div class="sidefig">
+    <div>
     <div class="eb eb-t">Coaching &middot; Training &middot; Advisory &middot; Tooling <span class="chip-o">2 minutes to a Snapshot</span></div>
     <h1 class="dh">Build the right thing, the first time.</h1>
     <p class="lede">AI keeps cutting the cost of building software. The cost of building the wrong thing keeps compounding. We install the E3 Product Mindset across your product team so all that new speed lands on work your customers feel and your board can see.</p>
@@ -124,11 +126,15 @@
       <a role="button" tabindex="0" data-view="diagnostic" class="alink">Book the Product Thinking Diagnostic <span class="ar">&#8594;</span></a>
     </div>
     <p class="subnote">Ten scenarios. About two minutes. No email needed to begin.</p>
-    <figure class="photo-fig reveal"><img src="assets/media/jason-e3-session.jpg" alt="Jason Abdo presenting the E3 Product Mindset to a product team" loading="lazy"></figure>
+    </div>
+    <div>
+    <figure class="photo-fig hero-photo reveal"><img src="assets/media/jason-e3-session.jpg" alt="Jason Abdo presenting the E3 Product Mindset to a product team" loading="lazy"></figure>
     <div class="statlist reveal">
       <div class="srow"><span>Product Managers coached</span><span class="pillv">150+</span></div>
       <div class="srow"><span>Years in product, per coach</span><span class="pillv">15+</span></div>
       <div class="srow"><span>Product themes scored</span><span class="pillv">8</span></div>
+    </div>
+    </div>
     </div>
   </div>
 </header>
@@ -137,57 +143,30 @@
   <div class="wrap">
     <div class="eb eb-t reveal">Start from your situation</div>
     <h2 class="dh reveal">What challenges are you experiencing right now?</h2>
-    <p class="lede reveal">Here are five situations that commonly bring leaders to us. See if any look familiar, and then check out how we can help.</p>
-    <div class="ocards reveal">
-      <div class="ocard">
-        <h3>Our team ships constantly, but leadership can't tell if it is moving the right outcomes.</h3>
-        <p>The work has lost its connection to the strategy.<br><br>At Product Protégé, our product management tooling (North) with integrated native coaching keeps every story tied to the vision above it, and the Diagnostic shows you where the thinking is thin.</p>
-        <div class="alt-cta" style="margin-top:16px;gap:18px">
-          <a role="button" tabindex="0" data-view="north" class="alink">See North <span class="ar">&#8594;</span></a>
-          <a role="button" tabindex="0" data-view="diagnostic" class="alink">Book the Diagnostic</a>
-        </div>
-      </div>
-      <div class="ocard">
-        <h3>We coach our Product Managers, but it doesn't hold.</h3>
-        <p>Training fades when the daily tool does not reinforce it.<br><br>At Product Protégé, coaching sets the standard in the room and then North holds your team to it every day after.</p>
-        <div class="alt-cta" style="margin-top:16px;gap:18px">
-          <a role="button" tabindex="0" data-view="north" class="alink">See North <span class="ar">&#8594;</span></a>
-          <a role="button" tabindex="0" data-view="coaching" class="alink">Explore Coaching</a>
-        </div>
-      </div>
-      <div class="ocard">
-        <h3>My Product Managers are not strong enough at the craft.</h3>
-        <p>Start by identifying precise gaps and actionable opportunities. The Diagnostic scores every Product Manager across eight themes, then Coaching and the Online Course close the gaps it finds.</p>
-        <div class="alt-cta" style="margin-top:16px;gap:18px">
-          <a role="button" tabindex="0" data-view="diagnostic" class="alink">Start with the Diagnostic <span class="ar">&#8594;</span></a>
-          <a role="button" tabindex="0" data-view="coaching" class="alink">Explore Coaching</a>
-        </div>
-      </div>
-      <div class="ocard">
-        <h3>Something is broken in how we build product. I need to know what before I spend anything.</h3>
-        <p>That is exactly what the Product Thinking Diagnostic is for. A structured, data-backed read on your team before you commit a dollar to fixing anything.</p>
-        <div class="alt-cta" style="margin-top:16px;gap:18px">
-          <a role="button" tabindex="0" data-view="diagnostic" class="alink">Book the Diagnostic <span class="ar">&#8594;</span></a>
-          <a role="button" tabindex="0" data-view="snapshot" class="alink">Take the 2-minute Snapshot first</a>
-        </div>
-      </div>
-      <div class="ocard">
-        <h3>I need a senior product mind to advise. A thinking partner who has sat in the seat.</h3>
-        <p>The Fractional Product Advisor is a standing sounding board for your real decisions. Roadmap reviews, pre-board prep, and a peer to pressure test your thinking. This is your insurance that your strategy is aligned, executable, and targeted on the outcomes you truly need.</p>
-        <div class="alt-cta" style="margin-top:16px;gap:18px">
-          <a role="button" tabindex="0" data-view="advisor" class="alink">Meet the Advisor <span class="ar">&#8594;</span></a>
-        </div>
-      </div>
+    <p class="lede reveal">Here are 6 common situations that bring leaders to us. See if any look familiar and then select all that apply to see how we can help.</p>
+    <div class="picks reveal" id="challengePicks" role="group" aria-label="Select the challenges that apply to your team">
+      <button type="button" class="pick" role="checkbox" aria-checked="false" data-ch="outcomes"><span class="pk" aria-hidden="true"></span><span class="pt">Our team ships constantly, but leadership can't tell if it is moving the right outcomes.</span><span class="pd">The work has lost its connection to the strategy. Releases go out, and nobody can say what each one was meant to move.</span></button>
+      <button type="button" class="pick" role="checkbox" aria-checked="false" data-ch="misalignment"><span class="pk" aria-hidden="true"></span><span class="pt">Strategic misalignment, with everyone going in a different direction.</span><span class="pd">Your Product Managers are writing epics and stories. Upstream, nobody wrote the strategy. Now each team, org, or discipline aims a different direction and the work gets executed well, but is pointed at nothing.</span></button>
+      <button type="button" class="pick" role="checkbox" aria-checked="false" data-ch="craft"><span class="pk" aria-hidden="true"></span><span class="pt">My Product Managers are not strong enough at the craft.</span><span class="pd">Quality depends on who wrote it. Some Product Managers frame problems and outcomes well. Others turn requests into tickets and hope.</span></button>
+      <button type="button" class="pick" role="checkbox" aria-checked="false" data-ch="unknown"><span class="pk" aria-hidden="true"></span><span class="pt">Something is broken in how we build product. I need to know what before I spend anything.</span><span class="pd">Training and tooling both look plausible. Picking one on a hunch is how a budget gets spent twice.</span></button>
+      <button type="button" class="pick" role="checkbox" aria-checked="false" data-ch="advisor"><span class="pk" aria-hidden="true"></span><span class="pt">I need a senior product mind to advise. A thinking partner who has sat in the seat.</span><span class="pd">Roadmap calls, board prep, and reorg questions land on you, with nobody senior enough on hand to pressure test them.</span></button>
+      <button type="button" class="pick" role="checkbox" aria-checked="false" data-ch="prioritization"><span class="pk" aria-hidden="true"></span><span class="pt">A prioritization fight every quarter or every sprint.</span><span class="pd">With no weighted scoring or unified success measures, the loudest stakeholder wins the quarter and strategy quietly leaves the room.</span></button>
     </div>
+    <p class="pick-note" id="pickNote">Select one or more to see what we would recommend.</p>
+    <div class="mix-result pick-result" id="pickResult" style="display:none"></div>
   </div>
 </section>
 
 <section class="asec">
   <div class="wrap">
+    <div class="sidefig">
+    <div>
     <div class="eb eb-t reveal">What is Product Protégé?</div>
     <h2 class="dh reveal">A collective of practitioners who stay in the room.</h2>
     <p class="lede reveal">Product Protégé is a collective of battle-tested product practitioners, led by Jason Abdo. Through coaching, training, tooling, and product advising, we help your organization reach a product mindset at scale.</p>
+    </div>
     <figure class="photo-fig reveal"><img src="assets/media/jason-ideation.jpg" alt="A Product Protégé ideation session in progress" loading="lazy"></figure>
+    </div>
     <div class="defs reveal">
       <div class="defrow"><span class="dt">In the room</span><p>We come alongside and <i>grow and evolve with you</i> while your teams do the actual work. The framework arrives on day one. The habit arrives over the following months, on your roadmap, in your reviews, with your stakeholders in the room.</p></div>
       <div class="defrow"><span class="dt">On your stack</span><p>The E3 Product Mindset works on top of whatever you run today. Keep your process. Keep your tools. Keep your cadence. Nobody has to rip anything out to adopt it.</p></div>
@@ -565,7 +544,7 @@
   </div>
 </section>
 
-<section class="asec asec-band">
+<section class="asec asec-forest">
   <div class="wrap">
     <div class="eb eb-t reveal">The transformation</div>
     <h2 class="dh reveal">From feature factory to value driver.</h2>
@@ -1156,7 +1135,24 @@
       <div class="sc-row"><span class="sc-k">Session</span><span class="sc-v">45 + 15 weekly</span></div><div class="sc-row"><span class="sc-k">Length</span><span class="sc-v">12 months typical</span></div><div class="sc-row"><span class="sc-k">Built from</span><span class="sc-v">Diagnostic results</span></div><div class="sc-row"><span class="sc-k">You get</span><span class="sc-v">Polished output, without you in the room</span></div>
       <div class="sc-cta"><a role="button" tabindex="0" data-view="diagnostic" class="btn btn-yellow">Book the Product Thinking Diagnostic</a><a role="button" tabindex="0" data-view="coaches" class="btn btn-ghost">Meet our Coaches</a></div>
     </div>
-    <div class="talkline reveal">Want to see who you might work with? <a role="button" tabindex="0" data-view="coaches" class="alink">Meet our Coaches</a></div>
+  </div>
+</section>
+
+<section class="asec asec-band">
+  <div class="wrap">
+    <div class="eb eb-t reveal">Meet the coaches</div>
+    <h2 class="dh reveal">Coaches who have been in your seat.</h2>
+    <p class="lede reveal">Product Protégé is led by founder Jason Abdo and delivered by a team of seasoned product leaders. Each coach has launched many products across different industries and shares a passion for helping Product Managers hone their craft.</p>
+    <div class="team-cluster reveal" style="margin-top:22px">
+      <img data-photo="jason" alt="Jason Abdo, Founder and Head Coach" loading="lazy">
+      <img data-photo="jeremiah" alt="Jeremiah Starr, Product Coach" loading="lazy">
+      <img data-photo="robert" alt="Robert Pudlik, Product Coach" loading="lazy">
+      <img data-photo="josh" alt="Josh Throop, Product Advisor" loading="lazy">
+    </div>
+    <div class="alt-cta">
+      <a role="button" tabindex="0" data-view="coaches" class="btn btn-yellow">Meet the coaches</a>
+      <a role="button" tabindex="0" data-view="diagnostic" class="alink">Book the Diagnostic and get matched <span class="ar">&#8594;</span></a>
+    </div>
   </div>
 </section>
 
@@ -1283,10 +1279,28 @@
     <div class="phero">
       <a role="button" tabindex="0" data-view="home" class="view-back">&#8592; Back to home</a>
       <div class="eyebrow">The people behind the practice</div>
-      <h1>Meet our <span class="hl">Coaches.</span></h1>
+      <h1>Work with a coach who has <span class="hl">been in your seat.</span></h1>
       <p class="sub">Every coach has launched real products and led real teams. You get the E3 framework and a practitioner matched to your context.</p>
     </div>
   </div>
+
+<div class="logos">
+  <div class="wrap logos-in">
+    <div class="lead-line">Our coaches have coached, led, and shipped inside these organizations</div>
+    <div class="row logo-row">
+      <span class="logo-item"><img src="assets/logos/homedepot.svg" alt="The Home Depot" loading="lazy" data-domain="homedepot.com" onerror="var s=this.dataset.step||0;s++;this.dataset.step=s;if(s==1){this.src='https://logos-api.apistemic.com/domain:'+this.dataset.domain;}else if(s==2){this.src='https://www.google.com/s2/favicons?domain='+this.dataset.domain+'&amp;sz=128';}else{this.style.display='none';this.nextElementSibling.style.display='inline';}"><span class="logo-fallback">The Home Depot</span></span>
+      <span class="logo-item"><img src="assets/logos/hdsupply.svg" alt="HD Supply" loading="lazy" data-domain="hdsupply.com" onerror="var s=this.dataset.step||0;s++;this.dataset.step=s;if(s==1){this.src='https://logos-api.apistemic.com/domain:'+this.dataset.domain;}else if(s==2){this.src='https://www.google.com/s2/favicons?domain='+this.dataset.domain+'&amp;sz=128';}else{this.style.display='none';this.nextElementSibling.style.display='inline';}"><span class="logo-fallback">HD Supply</span></span>
+      <span class="logo-item"><img src="assets/logos/statefarm.svg" alt="State Farm" loading="lazy" data-domain="statefarm.com" onerror="var s=this.dataset.step||0;s++;this.dataset.step=s;if(s==1){this.src='https://logos-api.apistemic.com/domain:'+this.dataset.domain;}else if(s==2){this.src='https://www.google.com/s2/favicons?domain='+this.dataset.domain+'&amp;sz=128';}else{this.style.display='none';this.nextElementSibling.style.display='inline';}"><span class="logo-fallback">State Farm</span></span>
+      <span class="logo-item"><img src="assets/logos/usaa.png" alt="USAA" loading="lazy" data-domain="usaa.com" onerror="var s=this.dataset.step||0;s++;this.dataset.step=s;if(s==1){this.src='https://logos-api.apistemic.com/domain:'+this.dataset.domain;}else if(s==2){this.src='https://www.google.com/s2/favicons?domain='+this.dataset.domain+'&amp;sz=128';}else{this.style.display='none';this.nextElementSibling.style.display='inline';}"><span class="logo-fallback">USAA</span></span>
+      <span class="logo-item"><img src="assets/logos/carters.svg" alt="Carter&#39;s" loading="lazy" data-domain="carters.com" onerror="var s=this.dataset.step||0;s++;this.dataset.step=s;if(s==1){this.src='https://logos-api.apistemic.com/domain:'+this.dataset.domain;}else if(s==2){this.src='https://www.google.com/s2/favicons?domain='+this.dataset.domain+'&amp;sz=128';}else{this.style.display='none';this.nextElementSibling.style.display='inline';}"><span class="logo-fallback">Carter&#39;s</span></span>
+      <span class="logo-item"><img src="assets/logos/cox.svg" alt="Cox Communications" loading="lazy" data-domain="cox.com" onerror="var s=this.dataset.step||0;s++;this.dataset.step=s;if(s==1){this.src='https://logos-api.apistemic.com/domain:'+this.dataset.domain;}else if(s==2){this.src='https://www.google.com/s2/favicons?domain='+this.dataset.domain+'&amp;sz=128';}else{this.style.display='none';this.nextElementSibling.style.display='inline';}"><span class="logo-fallback">Cox Communications</span></span>
+      <span class="logo-item"><img src="assets/logos/ingage.svg" alt="Ingage" loading="lazy" data-domain="ingage.io" onerror="var s=this.dataset.step||0;s++;this.dataset.step=s;if(s==1){this.src='https://logos-api.apistemic.com/domain:'+this.dataset.domain;}else if(s==2){this.src='https://www.google.com/s2/favicons?domain='+this.dataset.domain+'&amp;sz=128';}else{this.style.display='none';this.nextElementSibling.style.display='inline';}"><span class="logo-fallback">Ingage</span></span>
+      <span class="logo-item"><img src="assets/logos/emusic.svg" alt="eMusic" loading="lazy" data-domain="emusic.com" onerror="var s=this.dataset.step||0;s++;this.dataset.step=s;if(s==1){this.src='https://logos-api.apistemic.com/domain:'+this.dataset.domain;}else if(s==2){this.src='https://www.google.com/s2/favicons?domain='+this.dataset.domain+'&amp;sz=128';}else{this.style.display='none';this.nextElementSibling.style.display='inline';}"><span class="logo-fallback">eMusic</span></span>
+      <span class="logo-item"><img src="assets/logos/glg.svg" alt="GLG" loading="lazy" data-domain="glginsights.com" onerror="var s=this.dataset.step||0;s++;this.dataset.step=s;if(s==1){this.src='https://logos-api.apistemic.com/domain:'+this.dataset.domain;}else if(s==2){this.src='https://www.google.com/s2/favicons?domain='+this.dataset.domain+'&amp;sz=128';}else{this.style.display='none';this.nextElementSibling.style.display='inline';}"><span class="logo-fallback">GLG</span></span>
+    </div>
+    <div class="note">That experience spans formal Product Protégé coaching engagements and years spent as product leaders and coaches inside these organizations. Either way, the craft was proven in real rooms, on real products.</div>
+  </div>
+</div>
 
   <section style="padding-top:6px">
     <div class="wrap">
@@ -1295,8 +1309,8 @@
         <div class="cf-bio">
           <div class="coach-role">Founder &amp; Head Coach</div>
           <h2>Jason Abdo</h2>
-          <p>Jason built Product Prot&eacute;g&eacute; from more than 15 years in the product trenches. He launched award-winning mobile apps that grew 60 times at a Fortune 50 company, built product excellence centers, and mentored over 150 Product Managers, distilling what works into the E3 Product Mindset and the Product Empowerment Pyramid.</p>
-          <p>He is the author of The Product Prot&eacute;g&eacute; Guide, the 4.9-star book many Product Managers keep on their desk. His coaching is practical, tactical, and immediately applicable.</p>
+          <p>Jason built Product Prot&eacute;g&eacute; from more than 15 years in the product trenches. He launched award-winning mobile apps that grew 60 times at a Fortune 50 company, built product excellence centers for enterprises and startups, and designed A/B testing programs across billion-dollar sites. Along the way he mentored over 150 Product Managers and distilled what actually works into the E3 Product Mindset and the Product Empowerment Pyramid, the frameworks at the heart of every engagement.</p>
+          <p>He is the author of The Product Prot&eacute;g&eacute; Guide, the 4.9-star book many Product Managers keep on their desk, and a Penn State Engineering graduate. His coaching style is practical, tactical, and immediately applicable. What your team learns today, they use tomorrow.</p>
         </div>
       </div>
 
@@ -1305,22 +1319,22 @@
           <img class="coach-photo" data-photo="jeremiah" alt="Jeremiah Starr, Product Coach" loading="lazy">
           <div class="coach-role">Product Coach</div>
           <h3>Jeremiah Starr</h3>
-          <p>Jeremiah has been a product builder and coach in the airline industry, in B2B mobile organizations, and in SaaS banking, where he led platform integrations.</p>
-          <p>Nothing compares, for him, to the light bulb moment when someone gains the confidence to make great decisions.</p>
+          <p>A proud Georgia native, Jeremiah gets to enjoy life with his amazing wife and daughter. Professionally, he has been a product builder and coach in the airline industry, in B2B organizations focused on mobile apps, and in SaaS banking, where he led platform integrations.</p>
+          <p>For Jeremiah, nothing compares to the light bulb moment when someone gains the confidence to make great decisions. He has lived that passion for years coaching tennis and helping friends, family, and mentees navigate big life milestones. Driven by a genuine love of continuous growth, he is excited to help your people discover their capabilities, sharpen their skills, and truly thrive.</p>
         </div>
         <div class="coach-card reveal">
           <img class="coach-photo" data-photo="robert" alt="Robert Pudlik, Product Coach" loading="lazy">
           <div class="coach-role">Product Coach</div>
           <h3>Robert Pudlik</h3>
-          <p>Robert brings over 25 years across enterprise retail, B2B, and consumer technology. At The Home Depot he helped build and scale a Product Center of Excellence supporting 600-plus Product Managers and partnered with senior leadership to elevate product talent.</p>
-          <p>Earlier he held senior and principal product roles at The Home Depot, GLG, Ingage, and eMusic.</p>
+          <p>Robert is a product leader with over 25 years of experience spanning enterprise retail, B2B, and consumer technologies. Most recently as Senior Manager of Product Management at The Home Depot, he led large-scale organizational transformation, helped build and scale a Product Center of Excellence supporting 600-plus Product Managers, and partnered with senior leadership to assess and elevate product talent.</p>
+          <p>Earlier in his career he held senior and principal product roles at The Home Depot, GLG, Ingage, and eMusic.</p>
         </div>
         <div class="coach-card reveal">
           <img class="coach-photo" data-photo="josh" alt="Josh Throop, Product Advisor" loading="lazy">
           <div class="coach-role">Product Advisor</div>
           <h3>Josh Throop</h3>
-          <p>Josh spent 13-plus years in senior product roles inside Fortune 50 organizations including The Home Depot and State Farm, across retail, AdTech, payments, and data platforms. He has coached more than 50 Product Managers and leaders, along with dozens of product squads.</p>
-          <p>His style is pragmatic, human-centered, and grounded in building teams where people enjoy doing their best work.</p>
+          <p>Josh is a product leader and coach with 13-plus years of experience as a Product Marketer, Senior Product Manager, Principal Product Manager, and Group Product Manager within multiple Fortune 50 organizations, including The Home Depot and State Farm. His background spans retail, AdTech, MarTech, payments, CRM, and data platform products, and he has coached more than 50 Product Managers and leaders, along with dozens of product squads.</p>
+          <p>Josh enjoys helping product professionals at every stage of their journey, bringing a coaching style that is pragmatic, human-centered, and grounded in real-world experience building products, teams, and organizations where people genuinely enjoy doing their best work.</p>
         </div>
       
       </div>
@@ -1330,7 +1344,7 @@
   <section style="padding-top:0">
     <div class="wrap">
       <div class="final reveal">
-        <h2>Work with a coach who has <span class="hl">been in your seat.</span></h2>
+        <h2>Ready to work with <span class="hl">a coach?</span></h2>
         <p>Start with the 2-minute Snapshot, or book the Product Thinking Diagnostic and we will match your team with the right coach.</p>
         <div class="row">
           <a role="button" tabindex="0" data-view="snapshot" class="btn btn-yellow">Take the Snapshot</a>
@@ -1358,6 +1372,8 @@
 <header class="asec" style="padding-bottom:30px">
   <div class="wrap">
     <a role="button" tabindex="0" data-view="home" class="view-back">&#8592; Back to home</a>
+    <div class="sidefig">
+    <div>
     <div class="eb eb-t">North by Product Protégé <span class="chip-o">8 levels, one graph</span></div>
     <h1 class="dh">Our tooling will coach your teams as they work and keeps everyone headed for your true North.</h1>
     <p class="lede">Engineering is still shipping what you prioritized six months ago. Every great strategy eventually loses to a backlog that nobody is maintaining against it. North is our AI native platform for backlog management, roadmaps, and OKR and KPI alignment. It keeps every user story connected to the vision above it, so what engineering builds this sprint is still what leadership decided to prioritize.</p>
@@ -1366,8 +1382,12 @@
       <a role="button" tabindex="0" data-contact="north" class="btn btn-yellow">See North on a call</a>
       <a role="button" tabindex="0" data-view="snapshot" class="alink">Take the Snapshot <span class="ar">&#8594;</span></a>
     </div>
+    </div>
+    <div>
     <figure class="shot reveal"><img src="assets/media/north-dash-30.jpg" alt="North Manager Dashboard with governance overview and global roadmap" loading="lazy"></figure>
     <div class="shotcap"><b>Manager Dashboard.</b> Governance overview, review queues, and team performance, with the global roadmap underneath it.</div>
+    </div>
+    </div>
   </div>
 </header>
 
