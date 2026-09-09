@@ -16,7 +16,16 @@ document.addEventListener('click',function(e){
   }
 },true);
 
-
+/* Keyboard activation for role="button" links. These are anchors without an
+   href, so the browser gives them no Enter or Space behavior of its own. */
+document.addEventListener('keydown',function(e){
+  if(e.key!=='Enter'&&e.key!==' ')return;
+  var t=e.target;
+  if(!t||!t.getAttribute||t.getAttribute('role')!=='button')return;
+  if(t.tagName==='BUTTON'||t.tagName==='INPUT'||t.tagName==='SUMMARY')return;
+  e.preventDefault();
+  t.click();
+});
 
 /* ===== Lead capture: real form delivery =====
    Uses FormSubmit's AJAX endpoint so submissions arrive at the inbox below with no backend.

@@ -581,7 +581,7 @@
   .rescards{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:30px}
   .rescard{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:26px 24px;border-top:4px solid var(--yellow);display:flex;flex-direction:column}
   .rescard .rk{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--coral-text);font-weight:700;margin-bottom:8px}
-  .rescard h3{font-size:21px;font-weight:700;margin-bottom:8px;color:var(--ink)}
+  .rescard h3,.rescard .rc-h{font-size:21px;font-weight:700;margin-bottom:8px;color:var(--ink)}
   .rescard p{font-size:14px;color:var(--ink-soft);line-height:1.5;margin-bottom:14px}
   .rescard .solves{font-size:13px;color:var(--ink-2);margin-bottom:16px;flex:1}
   .rescard .solves b{display:block;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:6px;font-weight:700}

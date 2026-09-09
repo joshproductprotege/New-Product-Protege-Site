@@ -15,6 +15,10 @@ name: Lighthouse
 on:
   pull_request:
     branches: [main]
+  # Every push to main is what Netlify deploys, so audit those too. A change
+  # that reaches main without a pull request still gets a Lighthouse run.
+  push:
+    branches: [main]
 
 permissions:
   contents: read
